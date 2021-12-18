@@ -1,0 +1,253 @@
+<% var all%>
+<% let i = 0%>       
+<% let a = 0%>
+       <div class="content-page">
+            <!-- Start content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="page-title-box" style="padding: 10px;">
+                        <div class="row align-items-center">
+                        </div> <!-- end row -->
+                    </div>
+                    <!-- end page-title -->
+                    <div class="row ">
+                        <div class="col-12 table-responsive">
+                           <div style="display: flex;
+                           flex-direction: row;
+                           justify-content: space-between;
+                           align-items: center;"> 
+                               <h4 class="m-3" style="font-weight: 600">Videolar ro'yhati</h4>
+                                <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-lg">Videolar qo'shish</button> </div>
+                            <div class="card m-b-30 table-responsive">
+                                <div class="card-body table-responsive" >
+                                    <table  id="datatable" class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th >Poster</th>
+                                            <th >Video</th>
+                                            <th class="param">Params</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for(item of all){%>
+                                            <tr>
+                                                <% i ++%> <% a ++%>
+                                                <td class="td"><img src="<%= item.image%>" style="width: 200px;" ></td>
+                                                <td class="td"><iframe src="<%= item.video%>" width="200px" height="100px" frameborder="0"></iframe></td>
+                                                <td class="params">
+                                                    <button
+                                                    type="button"
+                                                    class="btn btn-outline-success waves-effect waves-light"
+                                                    data-toggle="modal"
+                                                    data-target=".bs-example-modal-lg<%=i%>"
+                                                  >
+                                                  <i class="fas fa-edit"></i>
+                                                  </button>
+                                                  <button
+                                                  type="button"
+                                                  class="btn btn-outline-danger waves-effect waves-light"
+                                                  data-toggle="modal"
+                                                  data-target=".bs-example-modal-center<%=a%>"
+                                                >
+                                                
+                                                
+                                                <i class="fas fa-trash"></i>
+                                                </button>
+                                                <div class="modal fade bs-example-modal-center<%=a%>" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title mt-0">Malumotni o'chirish</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>
+                                                                    Rostdan malumotni o'chirishni hohlaysizmi?
+                                                                </p>
+                                                                    
+                                                                <div class="form-group">
+                                                                    <div>
+                                                                    <a href="/api/video/delete/<%= item._id%>" class="btn btn-danger waves-effect waves-light" >Delete</a>
+                                                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cancel</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+                                                  <div
+                                                  class="modal fade bs-example-modal-lg<%=i%>"
+                                                  tabindex="-1"
+                                                  role="dialog"
+                                                  aria-labelledby="myLargeModalLabel1"
+                                                  aria-hidden="true"
+                                                    >
+                                                  <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <h5 class="modal-title mt-0" id="myLargeModalLabel1">
+                                                          Malumotlarni o'zgartiring
+                                                        </h5>
+                                                        <button
+                                                          type="button"
+                                                          class="close"
+                                                          data-dismiss="modal"
+                                                          aria-label="Close"
+                                                        >
+                                                          <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <div>
+                                                            <form action="<%=`/api/video/${item._id}?_method=PUT`%>" method="POST" ref='uploadForm' encType="multipart/form-data" >
+                                                                <div class="form-form-group">
+                                                                    <label >Videonining linkini o'zgartishish</label>
+                                                                    <div>
+                                                                        <textarea minlength="5" name="video"  required class="form-control" rows="2" ><%= item.video%></textarea>
+                                                                    </div>
+                                                                    </div> <div class="input-group mb-3 pb-3 mt-2" >
+                                                                        <div class="file-upload" style="width: 100%;">
+                                                                        <div class="image-upload-wrap">
+                                                                            <input name="image"  class="file-upload-input" class="form-control" type="file" onchange="readURL(this);" required minlength="1" min="1"/>
+                                                                            <div class="drag-text">
+                                                                            <h3>Videoga rasm tanlang</h3>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="file-upload-content">
+                                                                            <img class="file-upload-image"  />
+                                                                            <div class="image-title-wrap" >
+                                                                            <button type="button" onclick="removeUpload()" class="remove-image">
+                                                                                O'chirish <span class="image-title">Rasmni yuklash</span>
+                                                                            </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>
+                                                                    </div>
+                                                                <div class="form-group">
+                                                                    <div>
+                                                                        <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                                                            Submit
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-secondary waves-effect m-l-5" data-dismiss="modal">
+                                                                            Cancel
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <% }%>
+                                        </tbody>
+                                    </table>
+    
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- content -->
+
+            <!--Modal content-->
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="myLargeModalLabel">Video qo'shing</h5> 
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/api/create/video" method="POST"  ref='uploadForm' encType="multipart/form-data" >
+                                <div class="form-form-group">
+                                    <label >Videoning linkini kiriting</label>
+                                    <div>
+                                        <textarea minlength="5" name="video"  required class="form-control" rows="2" ></textarea>
+                                    </div>
+                                </div>
+                                <div class="input-group mb-3 pb-3 mt-2" >
+                                    <div class="file-upload" style="width: 100%;">
+                                    <div class="image-upload-wrap">
+                                        <input name="image"  class="file-upload-input" class="form-control" type="file" onchange="readURL(this);" required minlength="1" min="1"/>
+                                        <div class="drag-text">
+                                        <h3>Videoga rasm tanlang </h3>
+                                        </div>
+                                    </div>
+                                    <div class="file-upload-content">
+                                        <img class="file-upload-image"  />
+                                        <div class="image-title-wrap" >
+                                        <button type="button" onclick="removeUpload()" class="remove-image">
+                                            O'chirish <span class="image-title">Rasmni yuklash</span>
+                                        </button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div>
+                                        <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                            Submit
+                                        </button>
+                                        <button type="button" class="btn btn-secondary waves-effect m-l-5" data-dismiss="modal">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <footer class="footer">
+                © 2019 - 2020 Stexo <span class="d-none d-sm-inline-block"> - Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign</span>.
+            </footer>
+
+        </div>
+        
+     
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+function readURL(input) {
+if (input.files && input.files[0]) {
+  var reader = new FileReader();
+
+  reader.onload = function (e) {
+    $(".image-upload-wrap").hide();
+
+    $(".file-upload-image").attr("src", e.target.result);
+    $(".file-upload-content").show();
+
+    $(".image-title").html(input.files[0].name);
+  };
+
+  reader.readAsDataURL(input.files[0]);
+} else {
+  removeUpload();
+}
+}
+
+function removeUpload() {
+$(".file-upload-input").replaceWith($(".file-upload-input").clone());
+$(".file-upload-content").hide();
+$(".image-upload-wrap").show();
+}
+$(".image-upload-wrap").bind("dragover", function () {
+$(".image-upload-wrap").addClass("image-dropping");
+});
+$(".image-upload-wrap").bind("dragleave", function () {
+$(".image-upload-wrap").removeClass("image-dropping");
+});
+
+</script>
